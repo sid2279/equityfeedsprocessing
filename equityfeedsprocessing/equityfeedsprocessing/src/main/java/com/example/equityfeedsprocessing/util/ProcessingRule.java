@@ -4,6 +4,7 @@ import com.example.equityfeedsprocessing.model.EquityFeeds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+@Component
 public class ProcessingRule {
 
     private static final Logger logger = LoggerFactory.getLogger(ProcessingRule.class);
