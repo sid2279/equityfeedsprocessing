@@ -1,0 +1,1 @@
+{"externalTransactionId":"SAPEXTXN6","clientId":"GS","securityId":"ICICI","transactionType":"SELL","transactionDate":"2013-11-23","marketValue":100.0,"sourceSystem":"BLO","priorityFlag":"Y","processingFee":0}

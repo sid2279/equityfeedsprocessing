@@ -1,0 +1,182 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.example.equityfeedsprocessing</groupId>
+  <artifactId>equityfeedsprocessing</artifactId>
+  <version>0.0.1-SNAPSHOT</version>
+  
+  <properties>
+		<java.version>1.8</java.version>
+  </properties>
+	
+ <dependencies>
+  	<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-core -->
+	<dependency>
+	    <groupId>org.apache.camel</groupId>
+	    <artifactId>camel-core</artifactId>
+	    <version>3.1.0</version>
+	</dependency>  	
+	
+	<dependency>
+       <groupId>org.apache.camel</groupId>
+   	   <artifactId>camel-component</artifactId>
+ 	   <version>1.4.0</version>
+	</dependency>
+  	
+  	<dependency>
+   		<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-cxf</artifactId>
+    	<version>3.1.0</version>
+	</dependency>
+
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-jms</artifactId>
+    	<version>3.1.0</version>
+	</dependency>
+
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-camel</artifactId>
+    	<version>5.15.12</version>
+	</dependency>
+
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-broker</artifactId>
+    	<version>5.15.12</version>
+	</dependency>
+
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-client</artifactId>
+    	<version>5.15.12</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-jms-pool</artifactId>
+    	<version>5.9.0</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-jacksonxml</artifactId>
+    	<version>3.1.0</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-jackson</artifactId>
+    	<version>3.1.0</version>    
+	</dependency>
+	
+	<dependency>
+    	<groupId>com.fasterxml.jackson.core</groupId>
+    	<artifactId>jackson-core</artifactId>
+    	<version>2.10.3</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-bindy</artifactId>
+    	<version>3.1.0</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-api</artifactId>
+    	<version>1.7.30</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-simple</artifactId>
+    	<version>1.7.30</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.slf4j/log4j-over-slf4j -->
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>log4j-over-slf4j</artifactId>
+    	<version>1.7.30</version>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+         <artifactId>slf4j-log4j12</artifactId>
+         <version>1.7.12</version>
+    </dependency>
+	<!-- 
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-jdk14</artifactId>
+    	<version>1.7.30</version>
+    	<scope>test</scope>
+    </dependency>
+     -->
+    
+   <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
+    
+	<dependency>
+    	<groupId>org.apache.logging.log4j</groupId>
+    	<artifactId>log4j-core</artifactId>
+    	<version>2.13.1</version>
+	</dependency>	
+	 
+	<dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.2</version>
+    </dependency>
+	
+	<!-- 
+	<dependency>
+    	<groupId>log4j</groupId>
+    	<artifactId>log4j</artifactId>
+    	<version>1.2.17</version>
+	</dependency>
+	 -->
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-jsonpath -->
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-jsonpath</artifactId>
+    	<version>3.1.0</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-ftp -->
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-ftp</artifactId>
+    	<version>3.1.0</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-quartz -->
+	<!--  
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-quartz</artifactId>
+    	<version>3.1.0</version>
+	</dependency>
+	-->
+	
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.camel/camel-quartz2 -->
+	<dependency>
+   	 	<groupId>org.apache.camel</groupId>
+    	<artifactId>camel-quartz2</artifactId>
+    	<version>2.17.0</version>
+    	<scope>test</scope>
+	</dependency>
+	
+	<dependency>
+    	<groupId>org.apache.camel</groupId>
+    	<artifactId>spi-annotations</artifactId>
+    	<version>3.1.0</version>
+    	<scope>provided</scope>
+	</dependency>
+
+	
+  </dependencies>
+  
+</project>

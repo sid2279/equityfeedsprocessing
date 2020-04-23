@@ -1,0 +1,61 @@
+<?xml version = "1.0"?>
+<xs:schema xmlns:xs = "http://www.w3.org/2001/XMLSchema">
+   <xs:element name = 'equityFeeds'>
+      <xs:complexType>
+         <xs:sequence>
+            <xs:element name = "externalTransactionId" type = "xs:token"/>
+			<xs:element name = "clientId">
+				<xs:simpleType>
+					<xs:restriction base = "xs:string">
+						<xs:enumeration value = "AP"/>
+						<xs:enumeration value = "AS"/>
+						<xs:enumeration value = "GS"/>
+						<xs:enumeration value = "HJ"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>	
+			<xs:element name = "securityId">
+				<xs:simpleType>
+					<xs:restriction base = "xs:string">
+						<xs:enumeration value = "REL"/>
+						<xs:enumeration value = "RELIND"/>
+						<xs:enumeration value = "ICICI"/>
+						<xs:enumeration value = "HINDALCO"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:element name = "transactionType">
+				<xs:simpleType>
+					<xs:restriction base = "xs:string">
+						<xs:enumeration value = "BUY"/>
+						<xs:enumeration value = "SELL"/>
+						<xs:enumeration value = "DEPOSIT"/>
+						<xs:enumeration value = "WITHDRAW"/>
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>		 
+			<xs:element name = "transactionDate" type = "xs:date"/>
+			<xs:element name = "marketValue" type = "xs:decimal"/>
+			<xs:element name = "sourceSystem">
+				<xs:simpleType>
+					<xs:restriction base = "xs:string">
+						<xs:enumeration value = "REU"/>
+						<xs:enumeration value = "BLO"/>
+						<xs:enumeration value = "CIQ"/>
+						<xs:enumeration value = "NSQ"/>		
+					</xs:restriction>
+				</xs:simpleType>	
+			</xs:element>		
+			<xs:element name = "priorityFlag">
+				<xs:simpleType>
+					<xs:restriction base = "xs:string">
+						<xs:enumeration value = "Y"/>
+						<xs:enumeration value = "N"/>				
+					</xs:restriction>
+				</xs:simpleType>		 
+			</xs:element>
+			<xs:element name = "processingFee" type = "xs:long"/>		
+         </xs:sequence>
+      </xs:complexType>
+   </xs:element>
+</xs:schema>   
