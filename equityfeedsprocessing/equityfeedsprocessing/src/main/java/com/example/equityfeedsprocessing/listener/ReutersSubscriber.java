@@ -1,12 +1,10 @@
 package com.example.equityfeedsprocessing.listener;
 
 
-import com.example.equityfeedsprocessing.impl.EquityFeedsRedisRepositoryImpl;
+
 import com.example.equityfeedsprocessing.model.EquityFeeds;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRedisRepository;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRepository;
+import com.example.equityfeedsprocessing.util.POJOValidator;
 import com.example.equityfeedsprocessing.util.ProcessingLogic;
-import com.example.equityfeedsprocessing.util.SavingEquityData;
 import com.example.equityfeedsprocessing.util.XMLLocalDateDeSerializer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,38 +12,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
+import javax.validation.ConstraintViolation;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Unmarshaller;
 import java.io.StringReader;
+import java.util.Set;
 
 @Component
 @EnableJms
 public class ReutersSubscriber {
 
     @Autowired
-    private EquityFeedsRepository equityFeedsRepository;
-
-    @Autowired
-    private EquityFeedsRedisRepository equityFeedsRedisRepository;
-
-    @Autowired
-    private EquityFeedsRedisRepositoryImpl equityFeedsRedisRepositoryImpl;
-
-    @Autowired
-    private JmsTemplate jmsTemplate;
-
-    @Autowired
-    private SavingEquityData savingEquityData;
-
-    @Autowired
     private ProcessingLogic processingLogic;
+
+    @Autowired
+    private POJOValidator pojoValidator;
 
     @Value("${reuters.outboundTopicName}")
     private String reutersOutboundTopicName;
@@ -81,17 +68,24 @@ public class ReutersSubscriber {
 
             equityFeeds = generateEntity(xmlData);
 
-            logger.info("POJO returned after unmarshalling is: {}", equityFeeds);
+            logger.info("Calling the validate method of the POJO validator class to Validate the POJO object.");
 
-            logger.info("Calling the Processing Logic class to process the POJO as per Intra-day / Normal transaction.");
+            Set<ConstraintViolation<EquityFeeds>> constraintViolations = pojoValidator.validate(equityFeeds);
 
-            processingLogic.processDataLogic(reutersOutboundTopicName,equityFeeds);
+            if (constraintViolations.size() > 0) {
+                for (ConstraintViolation<EquityFeeds> violation : constraintViolations) {
+                    logger.error(violation.getMessage());
+                }
+            } else {
+                logger.info("Valid Object. Sending the object for processing.");
+                processingLogic.processDataLogic(reutersOutboundTopicName,equityFeeds);
+            }
 
         }
 
     }
 
-    private static EquityFeeds generateEntity(String xml) {
+    private EquityFeeds generateEntity(String xml) {
 
         logger.info("Inside generateEntity method.");
 
