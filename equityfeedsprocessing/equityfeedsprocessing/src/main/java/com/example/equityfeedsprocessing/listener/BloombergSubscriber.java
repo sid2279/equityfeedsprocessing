@@ -1,12 +1,9 @@
 package com.example.equityfeedsprocessing.listener;
 
 
-import com.example.equityfeedsprocessing.impl.EquityFeedsRedisRepositoryImpl;
 import com.example.equityfeedsprocessing.model.EquityFeeds;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRedisRepository;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRepository;
+import com.example.equityfeedsprocessing.util.POJOValidator;
 import com.example.equityfeedsprocessing.util.ProcessingLogic;
-import com.example.equityfeedsprocessing.util.SavingEquityData;
 import com.google.gson.*;
 
 import org.slf4j.Logger;
@@ -15,43 +12,32 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.TextMessage;
+import javax.validation.ConstraintViolation;
 import java.lang.reflect.Type;
 import java.time.LocalDate;
+import java.util.Set;
 
 @Component
 @EnableJms
 public class BloombergSubscriber {
 
     @Autowired
-    private EquityFeedsRepository equityFeedsRepository;
-
-    @Autowired
-    private EquityFeedsRedisRepository equityFeedsRedisRepository;
-
-    @Autowired
-    private EquityFeedsRedisRepositoryImpl equityFeedsRedisRepositoryImpl;
-
-    @Autowired
-    private JmsTemplate jmsTemplate;
-
-    @Autowired
-    private SavingEquityData savingEquityData;
-
-    @Autowired
     private ProcessingLogic processingLogic;
+
+    @Autowired
+    private POJOValidator pojoValidator;
 
     @Value("${bloomberg.outboundTopicName}")
     private String bloombergOutboundTopicName;
 
     private static final Logger logger = LoggerFactory.getLogger(BloombergSubscriber.class);
 
-//    @JmsListener(destination = "${bloomberg.inboundTopicName}", containerFactory = "jmsListenerContainerFactory")
+    @JmsListener(destination = "${bloomberg.inboundTopicName}", containerFactory = "jmsListenerContainerFactory")
     public void bloombergProcessor(Message jsonMessage) {
 
         logger.info("Entered the Bloomberg Processor method.");
@@ -87,11 +73,18 @@ public class BloombergSubscriber {
 
             EquityFeeds equityFeeds = gson.fromJson(jsMessage, EquityFeeds.class);
 
-            logger.info("POJO returned after deserialization is: {}", equityFeeds);
+            logger.info("Calling the validate method of the POJO validator class to Validate the POJO object.");
 
-            logger.info("Calling the Processing Logic class to process the POJO as per Intra-day / Normal transaction.");
+            Set<ConstraintViolation<EquityFeeds>> constraintViolations = pojoValidator.validate(equityFeeds);
 
-            processingLogic.processDataLogic(bloombergOutboundTopicName,equityFeeds);
+            if (constraintViolations.size() > 0) {
+                for (ConstraintViolation<EquityFeeds> violation : constraintViolations) {
+                    logger.error(violation.getMessage());
+                }
+            } else {
+                logger.info("Valid Object. Sending the object for processing.");
+                processingLogic.processDataLogic(bloombergOutboundTopicName,equityFeeds);
+            }
 
         }
 
