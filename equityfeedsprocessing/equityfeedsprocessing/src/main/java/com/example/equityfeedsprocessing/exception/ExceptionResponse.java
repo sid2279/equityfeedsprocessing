@@ -2,18 +2,18 @@ package com.example.equityfeedsprocessing.exception;
 
 import org.springframework.http.HttpStatus;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class ExceptionResponse {
 
-    private Date timestamp;
+    private LocalDate timestamp;
     private String message;
     private String details;
     private String httpCodeMessage;
     private HttpStatus status;
     private int statusValue;
 
-    public ExceptionResponse(Date timestamp, String message, String details, String httpCodeMessage, HttpStatus status, int statusValue) {
+    public ExceptionResponse(LocalDate timestamp, String message, String details, String httpCodeMessage, HttpStatus status, int statusValue) {
         this.timestamp = timestamp;
         this.message = message;
         this.details = details;
@@ -22,11 +22,11 @@ public class ExceptionResponse {
         this.statusValue = statusValue;
     }
 
-    public Date getTimestamp() {
+    public LocalDate getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(LocalDate timestamp) {
         this.timestamp = timestamp;
     }
 
