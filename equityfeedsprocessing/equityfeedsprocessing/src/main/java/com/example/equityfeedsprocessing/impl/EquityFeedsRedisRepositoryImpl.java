@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
-import java.util.Map;
+
 
 @Repository
 public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepository {
@@ -72,11 +72,6 @@ public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepositor
     }
 
     @Override
-    public Map<String, EquityFeeds> findAll() {
-        return hashOperations.entries("EQUITY");
-    }
-
-    @Override
     public EquityFeeds findById(String id) {
         logger.info("Inside the findById method of the REDIS cache");
         logger.info("Trying to find the id {} in REDIS Cache ",id);
@@ -104,13 +99,5 @@ public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepositor
         return (List<EquityFeeds>) listOperations.range(securityId, 0, -1);
     }
 
-    @Override
-    public void update(EquityFeeds equityFeeds) {
-        hashOperations.put("EQUITY", equityFeeds.getId(), equityFeeds);
-    }
 
-    @Override
-    public void delete(String id) {
-        hashOperations.delete("EQUITY", id);
-    }
 }
