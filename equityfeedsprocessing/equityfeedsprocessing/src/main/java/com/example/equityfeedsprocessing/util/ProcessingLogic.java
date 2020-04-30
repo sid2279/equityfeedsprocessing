@@ -1,37 +1,20 @@
 package com.example.equityfeedsprocessing.util;
 
 
-import com.example.equityfeedsprocessing.impl.EquityFeedsRedisRepositoryImpl;
 import com.example.equityfeedsprocessing.model.EquityFeeds;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRedisRepository;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRepository;
 import com.example.equityfeedsprocessing.service.EquityFeedsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
-import java.text.SimpleDateFormat;
 import java.util.Optional;
 
 @Component
 public class ProcessingLogic {
 
     @Autowired
-    private EquityFeedsRepository equityFeedsRepository;
-
-    @Autowired
-    private EquityFeedsRedisRepository equityFeedsRedisRepository;
-
-    @Autowired
-    private EquityFeedsRedisRepositoryImpl equityFeedsRedisRepositoryImpl;
-
-    @Autowired
     private EquityFeedsService equityFeedsService;
-
-    @Autowired
-    private JmsTemplate jmsTemplate;
 
     @Autowired
     private SavingEquityData savingEquityData;
@@ -42,8 +25,6 @@ public class ProcessingLogic {
     private static final Logger logger = LoggerFactory.getLogger(ProcessingLogic.class);
 
     public void processDataLogic(String topicName, EquityFeeds equityFeeds) {
-
-//        final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
 
         logger.info("Inside the processDataLogic method of the ProcessingLogic class");
 
@@ -81,7 +62,6 @@ public class ProcessingLogic {
 
                 logger.info("Treating the newer trade as a Normal transaction.");
 
-//                EquityFeeds normalProcessedEquityFeeds = ProcessingRule.processData(equityFeeds);
                 EquityFeeds normalProcessedEquityFeeds = processingRule.processData(equityFeeds);
 
                 savingEquityData.savingData(topicName, normalProcessedEquityFeeds);
@@ -91,8 +71,6 @@ public class ProcessingLogic {
         } else {
 
             logger.info("Key is not found in the REDIS cache. Treating this as a Normal transaction.");
-
-//            EquityFeeds normalProcessedEquityFeeds = ProcessingRule.processData(equityFeeds);
 
             EquityFeeds normalProcessedEquityFeeds = processingRule.processData(equityFeeds);
 
