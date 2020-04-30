@@ -8,7 +8,6 @@ spring.jpa:
   format_sql: true
   use-sql-comments: true
   hibernate.ddl-auto: update
-#  hibernate.naming-strategy: org.hibernate.cfg.SpringPhysicalNamingStrategy
   hibernate.naming.physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   properties.hibernate.dialect: org.hibernate.dialect.MySQL5Dialect
 
@@ -33,7 +32,7 @@ logging.level.org.hibernate:
 
 reuters:
   inboundTopicName: reuters.inbound.Topic
-  outboundTopicName: reuters.outbound.topic
+  outboundTopicName: reuters.outbound.Topic
 
 bloomberg:
   inboundTopicName: bloomberg.inbound.Topic
@@ -45,3 +44,9 @@ capitalIQ:
 
 nasdaq:
   outboundTopicName: nasdaq.outbound.Topic
+
+ftp:
+  server: localhost
+  port: 21
+  user: Sid
+  pass: sid#ftp
