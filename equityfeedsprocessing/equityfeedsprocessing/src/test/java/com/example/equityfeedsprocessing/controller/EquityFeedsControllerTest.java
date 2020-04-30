@@ -47,7 +47,7 @@ public class EquityFeedsControllerTest {
 
     @Test
     public void getByExternalTransactionId() throws Exception {
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
         when(equityFeedsService.findByExternalTransactionId("SAPEXTXN1")).thenReturn(equityFeeds);
         mockMvc.perform(MockMvcRequestBuilders.get("/equityFeeds/getByExternalTransactionId/{externalTransactionId}", "SAPEXTXN1"))
                 .andExpect(status().isOk())
@@ -67,7 +67,7 @@ public class EquityFeedsControllerTest {
 
     @Test
     public void getByClientId() throws Exception {
-        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds(413,"SAPEXTXN4", "HJ", "RELIND", "WITHDRAW", LocalDate.of(2013, 11, 29), 230.0f, "BLO", "N",100));
+        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds.EquityFeedsBuilder().setId(413).setExternalTransactionId("SAPEXTXN4").setClientId("HJ").setSecurityId("RELIND").setTransactionType("WITHDRAW").setTransactionDate(LocalDate.of(2013, 11, 29)).setMarketValue(230.0f).setSourceSystem("BLO").setPriorityFlag("N").setProcessingFee(100).build());
         when(equityFeedsService.findByClientId("HJ")).thenReturn(equityFeeds);
         mockMvc.perform(MockMvcRequestBuilders.get("/equityFeeds/getByClientId/{clientId}", "HJ"))
                 .andExpect(status().isOk())
@@ -88,7 +88,7 @@ public class EquityFeedsControllerTest {
 
     @Test
     public void getBySecurityId() throws Exception {
-        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds(412,"SAPEXTXN3", "AP", "HINDALCO", "DEPOSIT", LocalDate.of(2013, 11, 18), 120.0f, "BLO", "Y",500));
+        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds.EquityFeedsBuilder().setId(412).setExternalTransactionId("SAPEXTXN3").setClientId("AP").setSecurityId("HINDALCO").setTransactionType("DEPOSIT").setTransactionDate(LocalDate.of(2013, 11, 18)).setMarketValue(120.0f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(500).build());
         when(equityFeedsService.findBySecurityId("HINDALCO")).thenReturn(equityFeeds);
         mockMvc.perform(MockMvcRequestBuilders.get("/equityFeeds/getBySecurityId/{securityId}", "HINDALCO"))
                 .andExpect(status().isOk())
