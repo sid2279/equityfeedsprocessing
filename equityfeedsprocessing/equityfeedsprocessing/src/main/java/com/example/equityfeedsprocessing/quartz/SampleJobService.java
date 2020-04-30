@@ -23,19 +23,25 @@ public class SampleJobService {
     @Value("${nasdaq.outboundTopicName}")
     private String nasdaqOutboundTopicName;
 
+    @Value("${ftp.server}")
+    private String server;
+
+    @Value("${ftp.port}")
+    private int port;
+
+    @Value("${ftp.user}")
+    private String user;
+
+    @Value("${ftp.pass}")
+    private String pass;
+
     private static final Logger logger = LoggerFactory.getLogger(SampleJobService.class);
 
-//    public static final String CSV_FILE = "src/main/resources/nasdaq.csv";
-    public static final String CSV_FILE = "src/main/resources/nasdaqlarge.csv";
+    public static final String CSV_FILE = "src/main/resources/nasdaqdatalarge.csv";
 
     public void executeSampleJob() {
 
         logger.info(" START | In executeSampleJob method of SampleJobService class.");
-
-        String server = "localhost";
-        int port = 21;
-        String user = "Sid";
-        String pass = "sid#ftp";
 
         FTPClient ftpClient = new FTPClient();
         try {
@@ -47,8 +53,7 @@ public class SampleJobService {
             ftpClient.enterLocalPassiveMode();
             ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
 
-//            String remoteFile1 = "/equityFeedsProcessing/nasdaq.csv";
-            String remoteFile1 = "/equityFeedsProcessing/nasdaqlarge.csv";
+            String remoteFile1 = "/equityFeedsProcessing/nasdaqdatalarge.csv";
             File downloadFile1 = new File(CSV_FILE);
             OutputStream outputStream1 = new BufferedOutputStream(new FileOutputStream(downloadFile1));
             boolean success = ftpClient.retrieveFile(remoteFile1, outputStream1);
