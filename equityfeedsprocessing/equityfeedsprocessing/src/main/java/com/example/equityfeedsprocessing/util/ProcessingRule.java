@@ -3,13 +3,13 @@ package com.example.equityfeedsprocessing.util;
 import com.example.equityfeedsprocessing.model.EquityFeeds;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 
 @Component
 public class ProcessingRule {
 
-    private static final Logger logger = LoggerFactory.getLogger(ProcessingRule.class);
+     private static final Logger logger = LoggerFactory.getLogger(ProcessingRule.class);
 
-//    public static EquityFeeds processData(EquityFeeds equityFeeds) {
      public EquityFeeds processData(EquityFeeds equityFeeds) {
 
         logger.info("Inside processData method of the ProcessingRule class.");
