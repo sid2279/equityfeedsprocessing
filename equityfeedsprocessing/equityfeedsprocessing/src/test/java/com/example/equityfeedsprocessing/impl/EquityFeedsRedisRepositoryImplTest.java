@@ -1,14 +1,9 @@
 package com.example.equityfeedsprocessing.impl;
 
-import com.example.equityfeedsprocessing.EquityfeedsprocessingApplication;
 import com.example.equityfeedsprocessing.model.EquityFeeds;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRepository;
-import com.example.equityfeedsprocessing.service.EquityFeedsService;
-import com.example.equityfeedsprocessing.util.SavingEquityData;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
@@ -26,7 +21,6 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -37,15 +31,6 @@ public class EquityFeedsRedisRepositoryImplTest {
 
     @Mock
     private EquityFeedsRedisRepositoryImpl equityFeedsRedisRepositoryImpl;
-
-    @Mock
-    private SavingEquityData savingEquityData;
-
-    @Mock
-    private EquityFeedsRepository equityFeedsRepository;
-
-    @Mock
-    private EquityFeedsService equityFeedsService;
 
     @Mock
     RedisTemplate<String, EquityFeeds> redisTemplate;
@@ -68,7 +53,7 @@ public class EquityFeedsRedisRepositoryImplTest {
     @Test
     public void testSaveData() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepositoryImpl.save(equityFeeds)).thenReturn(new EquityFeeds());
 
@@ -79,7 +64,7 @@ public class EquityFeedsRedisRepositoryImplTest {
     @Test
     public void testSaveExternalTransactionId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepositoryImpl.saveExternalTransactionId(equityFeeds)).thenReturn(new EquityFeeds());
 
@@ -90,29 +75,29 @@ public class EquityFeedsRedisRepositoryImplTest {
     @Test
     public void testSaveClientId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepositoryImpl.saveClientId(equityFeeds)).thenReturn(new EquityFeeds());
 
-        assertEquals(equityFeeds.getExternalTransactionId(), "SAPEXTXN1");
+        assertEquals(equityFeeds.getClientId(), "GS");
 
     }
 
     @Test
     public void testSaveSecurityId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepositoryImpl.saveSecurityId(equityFeeds)).thenReturn(new EquityFeeds());
 
-        assertEquals(equityFeeds.getExternalTransactionId(), "SAPEXTXN1");
+        assertEquals(equityFeeds.getSecurityId(), "ICICI");
 
     }
 
     @Test
     public void testfindById() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepositoryImpl.findById("GSICICI2013-11-22")).thenReturn(new EquityFeeds());
 
@@ -123,7 +108,7 @@ public class EquityFeedsRedisRepositoryImplTest {
     @Test
     public void testfindByExternalTransactionId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepositoryImpl.findByExternalTransactionId("SAPEXTXN1")).thenReturn(new EquityFeeds());
 
@@ -134,7 +119,7 @@ public class EquityFeedsRedisRepositoryImplTest {
     @Test
     public void testfindByClientId() {
 
-        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0));
+        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build());
 
         when(equityFeedsRedisRepositoryImpl.findByClientId("GS")).thenReturn(equityFeeds);
 
@@ -145,7 +130,7 @@ public class EquityFeedsRedisRepositoryImplTest {
     @Test
     public void testfindBySecurityId() {
 
-        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0));
+        List<EquityFeeds> equityFeeds = Arrays.asList(new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build());
 
         when(equityFeedsRedisRepositoryImpl.findBySecurityId("ICICI")).thenReturn(equityFeeds);
 
