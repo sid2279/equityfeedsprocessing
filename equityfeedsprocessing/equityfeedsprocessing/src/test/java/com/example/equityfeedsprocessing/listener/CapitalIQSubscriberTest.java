@@ -13,7 +13,7 @@ class CapitalIQSubscriberTest {
 
     @Test
     public void testObject() {
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0l);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         assertThat(equityFeeds.getId(), is(423));
         assertThat(equityFeeds.getExternalTransactionId(), is("SAPEXTXN1"));
