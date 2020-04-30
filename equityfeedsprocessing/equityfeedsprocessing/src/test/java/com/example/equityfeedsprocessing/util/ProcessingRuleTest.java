@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,12 +26,6 @@ public class ProcessingRuleTest {
     @InjectMocks
     private ProcessingRule processingRule;
 
-    @Mock
-    private ProcessingRule procesingRule;
-
-    @Mock
-    private SavingEquityData savingEquityData;
-
     @BeforeEach
     public void setUp() {
         mockMvc = MockMvcBuilders.standaloneSetup(processingRule).build();
@@ -40,7 +33,8 @@ public class ProcessingRuleTest {
 
     @Test
     void testPriorityFlag() {
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0l);
+
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         assertThat(equityFeeds.getPriorityFlag(), is("Y"));
 
@@ -54,7 +48,7 @@ public class ProcessingRuleTest {
     @Test
     void testPriorityFlagAndTransactionType1() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "SELL", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "N",0l);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("SELL").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("N").setProcessingFee(0).build();
 
         assertThat(equityFeeds.getPriorityFlag(), is("N"));
         assertThat(equityFeeds.getTransactionType(), is("SELL"));
@@ -68,7 +62,7 @@ public class ProcessingRuleTest {
     @Test
     void testPriorityFlagAndTransactionType2() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "WITHDRAW", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "N",0l);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("WITHDRAW").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("N").setProcessingFee(0).build();
 
         assertThat(equityFeeds.getPriorityFlag(), is("N"));
         assertThat(equityFeeds.getTransactionType(), is("WITHDRAW"));
@@ -82,7 +76,7 @@ public class ProcessingRuleTest {
     @Test
     void testPriorityFlagAndTransactionType3() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "N",0l);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("N").setProcessingFee(0).build();
 
         assertThat(equityFeeds.getPriorityFlag(), is("N"));
         assertThat(equityFeeds.getTransactionType(), is("BUY"));
@@ -96,7 +90,7 @@ public class ProcessingRuleTest {
     @Test
     void testPriorityFlagAndTransactionType4() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "DEPOSIT", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "N",0l);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("DEPOSIT").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("N").setProcessingFee(0).build();
 
         assertThat(equityFeeds.getPriorityFlag(), is("N"));
         assertThat(equityFeeds.getTransactionType(), is("DEPOSIT"));
@@ -106,7 +100,5 @@ public class ProcessingRuleTest {
         assertThat(equityFeeds.getProcessingFee(), is(50l));
 
     }
-
-
 
 }
