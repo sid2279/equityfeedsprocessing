@@ -1,9 +1,7 @@
 package com.example.equityfeedsprocessing.util;
 
 
-import com.example.equityfeedsprocessing.impl.EquityFeedsRedisRepositoryImpl;
 import com.example.equityfeedsprocessing.model.EquityFeeds;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRedisRepository;
 import com.example.equityfeedsprocessing.repository.EquityFeedsRepository;
 import com.example.equityfeedsprocessing.service.EquityFeedsService;
 import org.slf4j.Logger;
@@ -20,12 +18,6 @@ public class SavingEquityData {
     private EquityFeedsRepository equityFeedsRepository;
 
     @Autowired
-    private EquityFeedsRedisRepository equityFeedsRedisRepository;
-
-    @Autowired
-    private EquityFeedsRedisRepositoryImpl equityFeedsRedisRepositoryImpl;
-
-    @Autowired
     private EquityFeedsService equityFeedsService;
 
     @Autowired
@@ -38,7 +30,7 @@ public class SavingEquityData {
 
         logger.info("Inside savingData method of the SavingEquityData class.");
 
-        logger.info("Queue Name: {}",topicName);
+        logger.info("Topic Name: {}",topicName);
 
         logger.info("EquityFeeds POJO received is: {}", equityFeeds);
 
