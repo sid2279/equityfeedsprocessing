@@ -28,19 +28,13 @@ public class SavingEquityDataTest {
 
     private MockMvc mockMvc;
 
-    @InjectMocks
-    private SavingEquityData savingEquityData;
-
-    @Mock
-    private EquityFeedsRepository equityFeedsRepository;
-
     @Mock
     private EquityFeedsService equityFeedsService;
 
     @Test
     public void testSaveData() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsService.save(equityFeeds)).thenReturn(new EquityFeeds());
 
@@ -51,7 +45,7 @@ public class SavingEquityDataTest {
     @Test
     public void testSaveExternalTransactionId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsService.saveExternalTransactionId(equityFeeds)).thenReturn(new EquityFeeds());
 
@@ -62,7 +56,7 @@ public class SavingEquityDataTest {
     @Test
     public void testSaveClientId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsService.saveClientId(equityFeeds)).thenReturn(new EquityFeeds());
 
@@ -73,7 +67,7 @@ public class SavingEquityDataTest {
     @Test
     public void testSaveSecurityId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsService.saveSecurityId(equityFeeds)).thenReturn(new EquityFeeds());
 
