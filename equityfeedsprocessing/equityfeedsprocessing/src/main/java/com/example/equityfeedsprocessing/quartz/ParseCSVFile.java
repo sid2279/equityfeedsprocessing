@@ -1,6 +1,7 @@
 package com.example.equityfeedsprocessing.quartz;
 
 import com.example.equityfeedsprocessing.model.EquityFeeds;
+import com.example.equityfeedsprocessing.util.POJOValidator;
 import com.example.equityfeedsprocessing.util.ProcessingLogic;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,11 +9,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+import javax.validation.ConstraintViolation;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -22,13 +25,15 @@ public class ParseCSVFile {
     @Autowired
     private ProcessingLogic processingLogic;
 
+    @Autowired
+    private POJOValidator pojoValidator;
+
     @Value("${nasdaq.outboundTopicName}")
     private String nasdaqOutboundTopicName;
 
     private static final Logger logger = LoggerFactory.getLogger(ParseCSVFile.class);
 
-//    public static final String CSV_FILE = "src/main/resources/nasdaq.csv";
-    public static final String CSV_FILE = "src/main/resources/nasdaqlarge.csv";
+    public static final String CSV_FILE = "src/main/resources/nasdaqdatalarge.csv";
 
     public void parse() {
 
@@ -44,7 +49,7 @@ public class ParseCSVFile {
 
             List<EquityFeeds> equityFeeds = br.lines().skip(1).map(line -> {
                 String[] x = pattern.split(line);
-                return new EquityFeeds(x[0], x[1], x[2], x[3], LocalDate.parse(x[4]), Float.parseFloat(x[5]), x[6], x[7],Long.parseLong(x[8]));
+                return new EquityFeeds.EquityFeedsBuilder().setExternalTransactionId(x[0]).setClientId(x[1]).setSecurityId(x[2]).setTransactionType(x[3]).setTransactionDate(LocalDate.parse(x[4])).setMarketValue(Float.parseFloat(x[5])).setSourceSystem(x[6]).setPriorityFlag(x[7]).setProcessingFee(Long.parseLong(x[8])).build();
             }).collect(Collectors.toList());
 
             logger.info("CSV file has been successfully converted to POJO.");
@@ -57,7 +62,17 @@ public class ParseCSVFile {
 
                 logger.info("Starting to process each csv record one by one.");
 
-                processingLogic.processDataLogic(nasdaqOutboundTopicName,equity);
+                Set<ConstraintViolation<EquityFeeds>> constraintViolations = pojoValidator.validate(equity);
+
+                if (constraintViolations.size() > 0) {
+                    for (ConstraintViolation<EquityFeeds> violation : constraintViolations) {
+                        logger.error(violation.getMessage());
+                    }
+                } else {
+                    logger.info("Valid Object. Sending the object for processing.");
+                    processingLogic.processDataLogic(nasdaqOutboundTopicName,equity);
+                }
+
             }
 
             logger.info(" END | Finished processing csv file.");
