@@ -44,7 +44,8 @@ public class EquityFeedsServiceTest {
 
     @Test
     public void testSaveMethod() {
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepository.save(any(EquityFeeds.class))).thenReturn(new EquityFeeds());
 
@@ -54,7 +55,8 @@ public class EquityFeedsServiceTest {
 
     @Test
     public void testsaveExternalTransactionId() {
-        EquityFeeds equityFeeds = new EquityFeeds(423, "SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y", 0);
+
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepository.saveExternalTransactionId(any(EquityFeeds.class))).thenReturn(new EquityFeeds());
 
@@ -63,7 +65,8 @@ public class EquityFeedsServiceTest {
 
     @Test
     public void testsaveClientId() {
-        EquityFeeds equityFeeds = new EquityFeeds(423, "SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y", 0);
+
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         when(equityFeedsRedisRepository.saveClientId(any(EquityFeeds.class))).thenReturn(new EquityFeeds());
 
@@ -73,7 +76,7 @@ public class EquityFeedsServiceTest {
     @Test
     public void testfindBySecurityId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         List<EquityFeeds> expectedEquityFeeds = Arrays.asList(equityFeeds);
 
@@ -84,7 +87,7 @@ public class EquityFeedsServiceTest {
     @Test
     public void testfindByClientId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         List<EquityFeeds> expectedEquityFeeds = Arrays.asList(equityFeeds);
 
@@ -95,7 +98,7 @@ public class EquityFeedsServiceTest {
     @Test
     public void testfindByExternalTransactionId() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         EquityFeeds expectedEquityFeeds = equityFeeds;
 
@@ -106,7 +109,7 @@ public class EquityFeedsServiceTest {
     @Test
     public void testfindById() {
 
-        EquityFeeds equityFeeds = new EquityFeeds(423,"SAPEXTXN1", "GS", "ICICI", "BUY", LocalDate.of(2013, 11, 22), 101.9f, "BLO", "Y",0);
+        EquityFeeds equityFeeds = new EquityFeeds.EquityFeedsBuilder().setId(423).setExternalTransactionId("SAPEXTXN1").setClientId("GS").setSecurityId("ICICI").setTransactionType("BUY").setTransactionDate(LocalDate.of(2013, 11, 22)).setMarketValue(101.9f).setSourceSystem("BLO").setPriorityFlag("Y").setProcessingFee(0).build();
 
         EquityFeeds expectedEquityFeeds = equityFeeds;
 
