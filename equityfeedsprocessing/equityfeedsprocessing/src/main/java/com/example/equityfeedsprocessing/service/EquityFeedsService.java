@@ -3,7 +3,6 @@ package com.example.equityfeedsprocessing.service;
 
 import com.example.equityfeedsprocessing.impl.EquityFeedsRedisRepositoryImpl;
 import com.example.equityfeedsprocessing.model.EquityFeeds;
-import com.example.equityfeedsprocessing.repository.EquityFeedsRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,9 +12,6 @@ import java.util.List;
 
 @Service
 public class EquityFeedsService {
-
-    @Autowired
-    private EquityFeedsRepository equityFeedsRepository;
 
     @Autowired
     private EquityFeedsRedisRepositoryImpl equityFeedsRedisRepositoryImpl;
