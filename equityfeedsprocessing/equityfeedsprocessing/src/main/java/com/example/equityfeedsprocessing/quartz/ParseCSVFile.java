@@ -33,7 +33,7 @@ public class ParseCSVFile {
 
     private static final Logger logger = LoggerFactory.getLogger(ParseCSVFile.class);
 
-    public static final String CSV_FILE = "src/main/resources/nasdaqdatalarge.csv";
+    public static final String CSV_FILE = "src/main/resources/nasdaqdata_invalid_1.csv";
 
     public void parse() {
 
