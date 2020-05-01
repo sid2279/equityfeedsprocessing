@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -32,8 +33,14 @@ public class BloombergSubscriber {
     @Autowired
     private POJOValidator pojoValidator;
 
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
     @Value("${bloomberg.outboundTopicName}")
     private String bloombergOutboundTopicName;
+
+    @Value("${equityFeeds.errorTopicName}")
+    private String errorTopicName;
 
     private static final Logger logger = LoggerFactory.getLogger(BloombergSubscriber.class);
 
@@ -55,10 +62,17 @@ public class BloombergSubscriber {
             logger.info("Casting the JSON Message received into TextMessage. ");
 
             TextMessage textMessage = (TextMessage) jsonMessage;
+
             try {
                 jsMessage =  textMessage.getText();
             } catch (JMSException e) {
                 logger.error("JMS Exception: {}", e);
+            }
+
+            if (jsMessage == null) {
+                logger.error("The give JSON Message is null");
+                jmsTemplate.convertAndSend(errorTopicName, textMessage);
+                return;
             }
 
             logger.info("Calling deserialize method og Gson for LocalDate class.");
