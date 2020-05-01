@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -34,8 +35,14 @@ public class ReutersSubscriber {
     @Autowired
     private POJOValidator pojoValidator;
 
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
     @Value("${reuters.outboundTopicName}")
     private String reutersOutboundTopicName;
+
+    @Value("${equityFeeds.errorTopicName}")
+    private String errorTopicName;
 
     private static final Logger logger = LoggerFactory.getLogger(ReutersSubscriber.class);
 
@@ -62,6 +69,12 @@ public class ReutersSubscriber {
                 xmlData = textMessage.getText();
             } catch (JMSException e) {
                 logger.error("JMS Exception: {}", e);
+            }
+
+            if (xmlData == null) {
+                logger.error("The give XML Message is null");
+                jmsTemplate.convertAndSend(errorTopicName, textMessage);
+                return;
             }
 
             logger.info("Calling generateEntity method to unmarshal the XML into a EquityFeeds POJO");
