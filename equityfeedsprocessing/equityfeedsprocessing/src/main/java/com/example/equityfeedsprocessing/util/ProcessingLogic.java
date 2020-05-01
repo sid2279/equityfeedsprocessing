@@ -46,7 +46,7 @@ public class ProcessingLogic {
 
             logger.info("Checking the additional condition of transactionType i.e. one should be buy and other should be SELL");
 
-            if ((equityFeeds.getTransactionType().equals("BUY") && processedEquityFeeds.get().getTransactionType().equals("SELL")) || ((equityFeeds.getTransactionType().equals("SELL") && processedEquityFeeds.get().getTransactionType().equals("BUY")))) {
+            if (equityFeeds.getTransactionType().equals("BUY") && processedEquityFeeds.get().getTransactionType().equals("SELL") || (equityFeeds.getTransactionType().equals("SELL") && processedEquityFeeds.get().getTransactionType().equals("BUY"))) {
 
                 logger.info("The Trade is an Intra-day transaction. One trade is BUY and the other is SELL.");
 
