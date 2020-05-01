@@ -66,17 +66,17 @@ public class EquityFeeds implements Serializable {
     public EquityFeeds() {
     }
 
-    public EquityFeeds(int id, String externalTransactionId, String clientId, String securityId, String transactionType, LocalDate transactionDate, float marketValue, String sourceSystem, String priorityFlag, long processingFee) {
-        this.id = id;
-        this.externalTransactionId = externalTransactionId;
-        this.clientId = clientId;
-        this.securityId = securityId;
-        this.transactionType = transactionType;
-        this.transactionDate = transactionDate;
-        this.marketValue = marketValue;
-        this.sourceSystem = sourceSystem;
-        this.priorityFlag = priorityFlag;
-        this.processingFee = processingFee;
+    private EquityFeeds (EquityFeedsBuilder builder) {
+        this.id = builder.id;
+        this.externalTransactionId = builder.externalTransactionId;
+        this.clientId = builder.clientId;
+        this.securityId = builder.securityId;
+        this.transactionType = builder.transactionType;
+        this.transactionDate = builder.transactionDate;
+        this.marketValue = builder.marketValue;
+        this.sourceSystem = builder.sourceSystem;
+        this.priorityFlag = builder.priorityFlag;
+        this.processingFee = builder.processingFee;
     }
 
     public static class EquityFeedsBuilder {
@@ -93,7 +93,7 @@ public class EquityFeeds implements Serializable {
         private long processingFee;
 
         public EquityFeedsBuilder() {
-
+            // This is a no-arg constructor for EquityFeedsBuilder.
         }
 
         public EquityFeedsBuilder setId(int id) {
@@ -147,7 +147,8 @@ public class EquityFeeds implements Serializable {
         }
 
         public EquityFeeds build() {
-            return new EquityFeeds(id, externalTransactionId, clientId, securityId, transactionType, transactionDate, marketValue, sourceSystem, priorityFlag, processingFee);
+            EquityFeeds equityFeeds = new EquityFeeds(this);
+            return equityFeeds;
         }
 
     }
