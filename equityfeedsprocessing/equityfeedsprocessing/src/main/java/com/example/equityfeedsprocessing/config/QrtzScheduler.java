@@ -6,10 +6,7 @@ import com.example.equityfeedsprocessing.quartz.SampleJob;
 import org.quartz.CronTrigger;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
-import org.quartz.Scheduler;
-import org.quartz.SchedulerException;
 import org.quartz.Trigger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,42 +18,25 @@ import org.springframework.scheduling.quartz.SpringBeanJobFactory;
 @Configuration
 public class QrtzScheduler {
 	
-	@Autowired
-	private ApplicationContext applicationContext; 
-	
 	@Bean
-	public SpringBeanJobFactory springBeanJobFactory() {
+	public SpringBeanJobFactory springBeanJobFactory(ApplicationContext applicationContext) {
 		AutoWiringSpringBeanJobFactory jobFactory = new AutoWiringSpringBeanJobFactory();
 		jobFactory.setApplicationContext(applicationContext);
 		return jobFactory;		
 	}
 	
 	@Bean 
-	public SchedulerFactoryBean scheduler(Trigger trigger, JobDetail job) {
+	public SchedulerFactoryBean scheduler(Trigger trigger, JobDetail job, ApplicationContext applicationContext) {
 
 		SchedulerFactoryBean schedulerFactory = new SchedulerFactoryBean();
 		schedulerFactory.setConfigLocation(new ClassPathResource("quartz.properties"));
-		schedulerFactory.setJobFactory(springBeanJobFactory());
+		schedulerFactory.setJobFactory(springBeanJobFactory(applicationContext));
 	    schedulerFactory.setJobDetails(job);
 	    schedulerFactory.setTriggers(trigger);
 	    schedulerFactory.setOverwriteExistingJobs(true);
 	    schedulerFactory.setAutoStartup(true);
 	    schedulerFactory.setWaitForJobsToCompleteOnShutdown(true);
 	    return schedulerFactory;
-	}
-	
-	@Bean
-	public Scheduler scheduler(Trigger trigger, JobDetail job, SchedulerFactoryBean factory) throws SchedulerException {
-	    Scheduler scheduler = factory.getScheduler();
-	    
-	    boolean flag = scheduler.checkExists(trigger.getKey());
-	    
-	    if(!flag) {
-	    	scheduler.scheduleJob(job, trigger);
-		    scheduler.start();
-	    }
-	    
-	    return scheduler;
 	}
 
 	@Bean(name = "memberStats")
