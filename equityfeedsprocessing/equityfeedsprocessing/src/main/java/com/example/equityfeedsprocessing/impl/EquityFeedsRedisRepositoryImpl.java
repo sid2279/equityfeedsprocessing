@@ -10,16 +10,15 @@ import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 
 @Repository
 public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepository {
 
-    final SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yy");
-
     private static final Logger logger = LoggerFactory.getLogger(EquityFeedsRedisRepositoryImpl.class);
+
+    private static final String INFO = "Saving the record in the REDIS cache with key as {}";
 
     @Autowired
     private RedisTemplate<String, EquityFeeds> redisTemplate;
@@ -39,7 +38,7 @@ public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepositor
         logger.info("Inside the save method of the REDIS cache.");
         logger.info("Equity Feeds POJO in save: {}",equityFeeds);
         String key = equityFeeds.getClientId()+equityFeeds.getSecurityId()+equityFeeds.getTransactionDate();
-        logger.info("Saving the record in the REDIS cache with key as {}", key);
+        logger.info(INFO, key);
         hashOperations.put("EQUITY", key, equityFeeds);
         return equityFeeds;
     }
@@ -47,7 +46,7 @@ public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepositor
     @Override
     public EquityFeeds saveExternalTransactionId(EquityFeeds equityFeeds) {
         logger.info("Inside the save externalTransactionId of the REDIS cache.");
-        logger.info("Saving the record in the REDIS cache with key as {}", equityFeeds.getExternalTransactionId());
+        logger.info(INFO, equityFeeds.getExternalTransactionId());
         logger.info("Equity Feeds POJO in saveExternalTransactionId: {}",equityFeeds);
         hashOperations.put("EXTNTID", equityFeeds.getExternalTransactionId(), equityFeeds);
         return equityFeeds;
@@ -56,7 +55,7 @@ public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepositor
     @Override
     public EquityFeeds saveClientId(EquityFeeds equityFeeds) {
         logger.info("Inside the save clientId of the REDIS cache.");
-        logger.info("Saving the record in the REDIS cache with key as {}", equityFeeds.getClientId());
+        logger.info(INFO, equityFeeds.getClientId());
         logger.info("Equity Feeds POJO in saveClientId: {}",equityFeeds);
         listOperations.rightPush(equityFeeds.getClientId(), equityFeeds);
         return equityFeeds;
@@ -65,7 +64,7 @@ public class EquityFeedsRedisRepositoryImpl implements EquityFeedsRedisRepositor
     @Override
     public EquityFeeds saveSecurityId(EquityFeeds equityFeeds) {
         logger.info("Inside the save securityId of the REDIS cache.");
-        logger.info("Saving the record in the REDIS cache with key as {}", equityFeeds.getSecurityId());
+        logger.info(INFO, equityFeeds.getSecurityId());
         logger.info("Equity Feeds POJO in saveSecurityId: {}",equityFeeds);
         listOperations.rightPush(equityFeeds.getSecurityId(), equityFeeds);
         return equityFeeds;
