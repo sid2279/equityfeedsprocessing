@@ -40,9 +40,9 @@ public class EquityFeedsController {
              return ResponseEntity.ok(extnTransactionId);
          } else {
             logger.info("ExternalTransactionId is NOT present in the REDIS cache.");
-            extnTransactionId.orElseThrow(() -> new ExternalTransactionIdNotFoundException(externalTransactionId));
+             throw new ExternalTransactionIdNotFoundException(externalTransactionId);
          }
-         return ResponseEntity.ok(extnTransactionId);
+
         }
 
     @GetMapping("/getByClientId/{clientId}")
