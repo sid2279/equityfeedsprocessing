@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.jms.annotation.EnableJms;
 import org.springframework.jms.annotation.JmsListener;
+import org.springframework.jms.core.JmsTemplate;
 import org.springframework.stereotype.Component;
 
 import javax.jms.JMSException;
@@ -28,8 +29,14 @@ public class CapitalIQSubscriber {
     @Autowired
     private POJOValidator pojoValidator;
 
+    @Autowired
+    private JmsTemplate jmsTemplate;
+
     @Value("${capitalIQ.outboundTopicName}")
     private String capitalIQOutboundTopicName;
+
+    @Value("${equityFeeds.errorTopicName}")
+    private String errorTopicName;
 
     private static final Logger logger = LoggerFactory.getLogger(CapitalIQSubscriber.class);
 
@@ -56,6 +63,12 @@ public class CapitalIQSubscriber {
                 object = objMessage.getObject();
             } catch (JMSException e) {
                 logger.error("JMS Exception: {}", e);
+            }
+
+            if (object == null) {
+                logger.error("The give Object Message is null");
+                jmsTemplate.convertAndSend(errorTopicName, objMessage);
+                return;
             }
 
             EquityFeeds equityFeeds = (EquityFeeds) object;
