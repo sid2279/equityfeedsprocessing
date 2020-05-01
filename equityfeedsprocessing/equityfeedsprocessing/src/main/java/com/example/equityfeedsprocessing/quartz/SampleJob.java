@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.IOException;
+
 @Component
 public class SampleJob implements Job {
 	
@@ -25,7 +27,11 @@ public class SampleJob implements Job {
 
 		logger.info(" START | Sample Job executed.");
 
-		sampleJobService.executeSampleJob();
+		try {
+			sampleJobService.executeSampleJob();
+		} catch (IOException e) {
+			logger.error(e.getMessage());
+		}
 
 		logger.info(" END | Sample Job executed.");
 	}	
